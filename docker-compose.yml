@@ -1,0 +1,25 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:latest # Official image from the documentation
+    container_name: open-webui
+    ports:
+      - "3000:8080" # Maps the container's port 8080 to your local port 3000
+    environment:
+      - OPENAI_API_KEY # Pulls the API key from the host environment variable
+      - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - open-webui:/app/backend/data # Persistent storage for Open WebUI data
+    restart: always
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    volumes:
+      - ollama:/root/.ollama # Persistent storage for Ollama
+    restart: always
+
+volumes: # purpose as per the names 
+  open-webui: 
+  ollama:
