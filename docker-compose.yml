@@ -13,11 +13,6 @@ services:
     restart: always
     depends_on:
       - ollama
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 512M
 
   ollama:
     image: ollama/ollama
@@ -25,11 +20,6 @@ services:
     volumes:
       - ollama:/root/.ollama # Persistent storage for Ollama
     restart: always
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 512M
   
   watchtower:
     image: containrrr/watchtower
