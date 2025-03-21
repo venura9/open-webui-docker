@@ -19,6 +19,15 @@ services:
     volumes:
       - ollama:/root/.ollama # Persistent storage for Ollama
     restart: always
+  
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    command:
+      - --cleanup=true # Enables cleanup of old images after updating.
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes: # purpose as per the names 
   open-webui: 
