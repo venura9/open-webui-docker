@@ -2,10 +2,39 @@
 
 This repository provides a Docker setup for running Open WebUI along with Ollama. The setup uses Docker Compose to manage the services and their dependencies.
 
+## Architecture
+
+```mermaid
+graph TD
+    subgraph Docker_Environment
+        A[open-webui Service]
+        B[ollama Service]
+        V1[open-webui Volume]
+        V2[ollama Volume]
+    end
+
+    subgraph Host_Machine
+        H1[Port 3000]
+        H2[Port 11434]
+    end
+
+    A -->|Depends On| B
+    A -->|Stores Data| V1
+    B -->|Stores Data| V2
+    H1 -->|Maps to Port 8080| A
+    A -->|Connects to| B
+    B -->|Exposes Port 11434| H2
+```
+
 ## Services
 
-- **open-webui**: The main web UI service.
-- **ollama**: A supporting service required by Open WebUI.
+- **open-webui**: The main web UI service
+  - Runs on port 3000 (mapped from container port 8080)
+  - Depends on ollama service
+  - Stores data in a persistent volume
+- **ollama**: The backend service required by Open WebUI
+  - Provides API endpoints for open-webui
+  - Stores model data in a persistent volume
 
 ## Prerequisites
 
